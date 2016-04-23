@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Repositories\Contracts\PostRepository;
 use Illuminate\Http\Request;
-
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Traits\ApiResourceControllerTrait;
-use App\Repositories\Eloquent\PostRepository;
 
 class PostController extends Controller
 {
@@ -17,7 +16,7 @@ class PostController extends Controller
 
     /**
      * PurchaseController constructor.
-     * @param ClientRepository $repository
+     * @param PostRepository $repository
      */
     public function __construct(PostRepository $repository)
     {

@@ -4,7 +4,7 @@ namespace App\Traits;
 
 
 use App\Repositories\Contracts\BaseRepository;
-use App\Repositories\Queries\DynamicQuery;
+use App\Repositories\Eloquent\Queries\DynamicQueryCriteria;
 
 trait DynamicQueryTrait
 {
@@ -15,7 +15,7 @@ trait DynamicQueryTrait
      */
     protected function applyDynamicQueryCriteria(BaseRepository &$repository, array $requestData)
     {
-        return $repository->applyCriteria(new DynamicQuery($requestData));
+        return $repository->applyCriteria(new DynamicQueryCriteria($requestData));
     }
 
 }

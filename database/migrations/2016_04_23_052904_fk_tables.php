@@ -13,7 +13,7 @@ class FkTables extends Migration
     public function up()
     {
         Schema::table('posts', function(Blueprint $table){
-            $table->foreign('author_id')->references('id')->on('authors');
+            $table->foreign('author_id')->references('id')->on('users');
             $table->foreign('category_id')->references('id')->on('categories');
         });
     }

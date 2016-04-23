@@ -13,6 +13,10 @@ use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use Williamoliveira\Repository\Exceptions\DeleteFailedRepositoryException;
+use Williamoliveira\Repository\Exceptions\RepositoryException;
+use Williamoliveira\Repository\Exceptions\StoreFailedRepositoryException;
+use Williamoliveira\Repository\Exceptions\UpdateFailedRepositoryException;
 
 class Handler extends ExceptionHandler
 {
@@ -63,6 +67,18 @@ class Handler extends ExceptionHandler
                 $e->getHttpHeaders(),
                 $e->getCode()
             );
+        }
+        else if($e instanceof DeleteFailedRepositoryException){
+            $e = new DeleteResourceFailedException($e->getMessage(), null, $e->getPrevious());
+        }
+        else if($e instanceof UpdateFailedRepositoryException){
+            $e = new UpdateResourceFailedException($e->getMessage(), null, $e->getPrevious());
+        }
+        else if($e instanceof StoreFailedRepositoryException){
+            $e = new StoreResourceFailedException($e->getMessage(), null, $e->getPrevious());
+        }
+        else if($e instanceof RepositoryException){
+            $e = new ResourceException($e->getMessage(), null, $e->getPrevious());
         }
 
         //If request wants json we send an Json Exception

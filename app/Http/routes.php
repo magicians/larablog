@@ -1,16 +1,30 @@
-<?php
+<?php /** @var Router $router */
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
-*/
+use Illuminate\Routing\Router;
 
-Route::get('/', function () {
+$router->get('/', function () {
     return view('welcome');
+});
+
+$router->group([
+    'namespace' => 'App\Http\Controllers\API',
+    'prefix' => '/api',
+    'middleware' => ['cors']
+], function(Router $api){
+
+    $api->post('/oauth2/access_token', 'AuthController@getAccessToken');
+
+    $api->post('/password/request', 'PasswordResetController@requestReset');
+    $api->post('/password/reset', 'PasswordResetController@doReset');
+
+    // Routes that requires user to be authenticated
+    $api->group(['middleware' => ['oauth', 'oauth-user']], function (Router $api) {
+
+        $api->get('/profile/me', 'ProfileController@getUser');
+        $api->put('/profile/password', 'ProfileController@updatePassword');
+        $api->put('/profile', 'ProfileController@updateUser');
+
+        $api->resource('/post', 'PostController');
+
+    });
 });

@@ -1,21 +1,21 @@
 <?php namespace App\Repositories\Eloquent\Queries;
 
-use App\Repositories\Contracts\Criteria;
 use Illuminate\Database\Eloquent\Builder;
 use Williamoliveira\ArrayQueryBuilder\ArrayBuilder;
+use Williamoliveira\Repository\Contracts\Criteria;
 
-class DynamicQuery implements Criteria
+class DynamicQueryCriteria implements Criteria
 {
 
     /**
      * @var array
      */
-    protected $criteria;
+    protected $criteriaData;
 
 
-    public function __construct(array $criteria)
+    public function __construct(array $criteriaData)
     {
-        $this->criteria = $criteria;
+        $this->criteriaData = $criteriaData;
     }
 
 
@@ -27,7 +27,7 @@ class DynamicQuery implements Criteria
      */
     public function apply(Builder &$query)
     {
-        return (new ArrayBuilder())->apply($query, $this->criteria);
+        return (new ArrayBuilder())->apply($query, $this->criteriaData);
     }
 
 }
